@@ -21,7 +21,7 @@ spec:
       - backend:
           serviceName: {{ .Chart.Name }}
           servicePort: {{ .Values.port.service }}
-        path: /
+        path: /(.*)
   tls:
   - hosts:
     - {{ .Values.ingress.host  }}
