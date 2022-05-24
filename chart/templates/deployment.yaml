@@ -25,7 +25,7 @@ spec:
         env:
         - name: KC_METRICS_ENABLED
           value: "true"
-        - name: KC_HEALTH_ENABLED:
+        - name: KC_HEALTH_ENABLED
           value: "true"
         - name: KEYCLOAK_ADMIN
           valueFrom:
