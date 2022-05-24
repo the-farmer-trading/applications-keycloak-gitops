@@ -24,9 +24,9 @@ spec:
         args: ["start"]
         env:
         - name: KC_METRICS_ENABLED
-          value: true
+          value: "true"
         - name: KC_HEALTH_ENABLED:
-          value: true
+          value: "true"
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
