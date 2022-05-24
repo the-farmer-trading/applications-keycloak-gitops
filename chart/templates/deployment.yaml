@@ -5,10 +5,6 @@ metadata:
   name: {{ .Release.Name }}
   labels:
     app: {{ .Release.Name }}
-  annotations:
-    prometheus.io/scrape: "true"
-    prometheus.io/path: /metrics
-    prometheus.io/port: "{{ .Values.port.application }}"
 spec:
   replicas: 1
   selector:
@@ -22,12 +18,11 @@ spec:
       containers:
       - name: {{ .Release.Name }}
         image: {{ .Values.image.tag }}
-        args: ["start"]
+        args: 
+        - "start "
+        - "--hostname "
+        - "{{ .Values.ingress.host }}"
         env:
-        - name: KC_METRICS_ENABLED
-          value: "true"
-        - name: KC_HEALTH_ENABLED
-          value: "true"
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
