@@ -7,7 +7,7 @@ metadata:
 spec:
   ports:
   - name: http
-    port: 80
-    targetPort: 8080
+    port: {{ .Values.port.service }}
+    targetPort: {{ .Values.port.application }}
   selector:
     app: {{ .Release.Name }}

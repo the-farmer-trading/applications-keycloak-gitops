@@ -4,6 +4,10 @@ metadata:
   name: {{ .Release.Name }}
   labels:
     app: {{ .Release.Name }}
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: "{{ .Values.port.application }}"
 spec:
   replicas: 1
   selector:
@@ -16,9 +20,13 @@ spec:
     spec:
       containers:
       - name: {{ .Release.Name }}
-        image: quay.io/keycloak/keycloak:18.0.0
-        args: ["start-dev"]
+        image: {{ .Values.image.tag }}
+        args: ["start"]
         env:
+        - name: KC_METRICS_ENABLED
+          value: true
+        - name: KC_HEALTH_ENABLED:
+          value: true
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
@@ -33,8 +41,8 @@ spec:
           value: "edge"
         ports:
         - name: http
-          containerPort: 8080
+          containerPort: {{ .Values.port.application }}
         readinessProbe:
           httpGet:
             path: /realms/master
-            port: 8080
+            port:  {{ .Values.port.application }}
