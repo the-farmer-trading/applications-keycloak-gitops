@@ -42,3 +42,10 @@ spec:
           httpGet:
             path: /realms/master
             port:  {{ .Values.port.application }}
+        volumeMounts:
+          - mountPath: /opt/jboss/keycloak/standalone/data
+            name: clients
+      volumes:
+        - name: clients
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-clients-claim
