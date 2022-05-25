@@ -23,6 +23,8 @@ spec:
         - "--hostname "
         - "{{ .Values.ingress.host }}"
         env:
+        - name: "DB_VENDOR"
+          value: postgres
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
@@ -43,7 +45,7 @@ spec:
             path: /realms/master
             port:  {{ .Values.port.application }}
         volumeMounts:
-          - mountPath: /opt/keycloak/data
+          - mountPath: /opt/what/keycloak/data
             name: clients
       volumes:
         - name: clients
