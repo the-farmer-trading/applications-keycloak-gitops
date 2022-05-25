@@ -43,7 +43,7 @@ spec:
             path: /realms/master
             port:  {{ .Values.port.application }}
         volumeMounts:
-          - mountPath: /opt/jboss/keycloak/standalone/data
+          - mountPath: /opt/keycloak/data
             name: clients
       volumes:
         - name: clients
