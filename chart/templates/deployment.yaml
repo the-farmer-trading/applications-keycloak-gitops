@@ -78,27 +78,16 @@ spec:
         image: {{ .Values.image.tag }}
         args: 
         - "start "
+        - "--auto-build"
+        - "--db={{.Values.database.vendor}}"
+        - "--db-url=jdbc:{{.Values.database.host}}:{{.Values.database.port}}"
+        - "--db-username={{.Values.database.userId}}"
+        - "--db-password={{.Values.database.password}}"
         - "--hostname "
         - "{{ .Values.ingress.host }}"
         env:
         - name: PROXY_ADDRESS_FORWARDING
           value: "true"
-        - name: "DB_VENDOR"
-          value: {{.Values.database.vendor }}
-        - name: "DB_ADDR"
-          value: {{.Values.database.host }}
-        - name: "DB_PORT"
-          value: {{.Values.database.port | quote}}
-        - name: "DB_DATABASE"
-          value: {{.Values.database.name }}
-        - name: "DB_USER"
-          value: {{.Values.database.userId }}
-        - name: "DB_PASSWORD"
-          value: {{.Values.database.password }}
-        - name: "KEYCLOAK_HOSTNAME"
-          value: {{.Values.ingress.host }}
-        - name: "DB_SCHEMA"
-          value: {{.Values.database.schema }}
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
