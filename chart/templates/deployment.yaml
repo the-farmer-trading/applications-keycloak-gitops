@@ -80,7 +80,7 @@ spec:
         - "start "
         - "--auto-build"
         - "--db={{.Values.database.vendor}}"
-        - "--db-url=jdbc:{{.Values.database.host}}:{{.Values.database.port}}"
+        - "--db-url=jdbc:postgresql://{{.Values.database.host}}/{{.Values.database.name}}"
         - "--db-username={{.Values.database.userId}}"
         - "--db-password={{.Values.database.password}}"
         - "--hostname "
