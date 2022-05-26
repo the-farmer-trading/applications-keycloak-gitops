@@ -23,8 +23,6 @@ spec:
         - '-c'
         - |
           echo "CREATE DATABASE {{ .Values.database.name }};" >> /docker-entrypoint-initdb.d/seed.sql
-          echo "CREATE USER {{ .Values.database.userId }} WITH PASSWORD '{{ .Values.database.password }}';" >> /docker-entrypoint-initdb.d/seed.sql
-          echo "GRANT ALL PRIVILEGES ON DATABASE {{ .Values.database.name }} TO {{ .Values.database.userId }};" >> /docker-entrypoint-initdb.d/seed.sql
         volumeMounts:
         - name: initdb
           mountPath: /docker-entrypoint-initdb.d
@@ -97,6 +95,8 @@ spec:
           value: {{.Values.database.userId }}
         - name: "DB_PASSWORD"
           value: {{.Values.database.password }}
+        - name: "KC_HOSTNAME_STRICT_HTTPS"
+          value: "true"
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
