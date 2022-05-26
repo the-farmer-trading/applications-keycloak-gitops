@@ -81,18 +81,6 @@ spec:
         - "--hostname "
         - "{{ .Values.ingress.host }}"
         env:
-        - name: "DB_VENDOR"
-          value: {{.Values.database.vendor }}
-        - name: "DB_ADDR"
-          value: {{.Values.database.host }}
-        - name: "DB_PORT"
-          value: {{.Values.database.port | quote}}
-        - name: "DB_DATABASE"
-          value: {{.Values.database.name }}
-        - name: "DB_USER"
-          value: {{.Values.database.userId }}
-        - name: "DB_PASSWORD"
-          value: {{.Values.database.password }}
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
