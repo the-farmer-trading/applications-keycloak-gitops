@@ -30,11 +30,11 @@ spec:
             cpu: 4
         env:
         - name: POSTGRES_DB
-          value: {{.Values.database.name}}
+          value: {{.Values.database.name | quote}}
         - name: POSTGRES_PASSWORD
-          value: {{.Values.database.password}}
+          value: {{.Values.database.password | quote}}
         - name: POSTGRES_USER
-          value: {{.Values.database.userId}}
+          value: {{.Values.database.userId | quote}}
         readinessProbe:
           exec:
             command: ["pg_isready", "-U", {{.Values.database.userId | quote}}]
@@ -67,17 +67,17 @@ spec:
         - "{{ .Values.ingress.host }}"
         env:
         - name: "DB_VENDOR"
-          value: {{.Values.database.vender}}
+          value: {{.Values.database.vender | quote}}
         - name: "DB_ADDR"
-          value: {{.Values.database.host}}
+          value: {{.Values.database.host | quote}}
         - name: "DB_PORT"
-          value: {{.Values.database.port}}
+          value: {{.Values.database.port | quote}}
         - name: "DB_DATABASE"
-          value: {{.Values.database.name}}
+          value: {{.Values.database.name | quote}}
         - name: "DB_USER"
-          value: {{.Values.database.userId}}
+          value: {{.Values.database.userId | quote}}
         - name: "DB_PASSWORD"
-          value: {{.Values.database.password}}
+          value: {{.Values.database.password | quote}}
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
