@@ -9,3 +9,10 @@ port:
   application: 8080
   service: 80
 
+database:
+  host: localhost
+  port: 5432
+  vendor: POSTGRES
+  name: keycloak
+  password: placeholder
+  userId: placeholder

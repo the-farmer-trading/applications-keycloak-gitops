@@ -16,6 +16,49 @@ spec:
         app: {{ .Release.Name }}
     spec:
       containers:
+      - name: {{ .Chart.Name }}-postgres
+        image: postgres:13.2-alpine
+        imagePullPolicy: "Always"
+        ports:
+        - containerPort: 5432
+        resources:
+          requests:
+            memory: 128Mi
+            cpu: 0.1m
+          limits:
+            memory: 4096Mi
+            cpu: 4
+        env:
+        - name: POSTGRES_DB
+          value: {{.Values.database.name}}
+        - name: POSTGRES_PASSWORD
+          value: {{.Values.database.password}}
+        - name: POSTGRES_USER
+          value: {{.Values.database.userId}}
+        readinessProbe:
+          exec:
+            command: ["pg_isready", "-U", {{.Values.database.userId | quote}}]
+          timeoutSeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 5
+        livenessProbe:
+          exec:
+            command: ["pg_isready", "-U", {{.Values.database.userId | quote}}]
+          timeoutSeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 10
+        startupProbe:
+          exec:
+            command: ["pg_isready"]
+          timeoutSeconds: 30
+          periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 50
+        volumeMounts:
+        - name: clients
+          mountPath: /var/lib/postgresql/data
       - name: {{ .Release.Name }}
         image: {{ .Values.image.tag }}
         args: 
@@ -24,7 +67,17 @@ spec:
         - "{{ .Values.ingress.host }}"
         env:
         - name: "DB_VENDOR"
-          value: postgres
+          value: {{.Values.database.vender}}
+        - name: "DB_ADDR"
+          value: {{.Values.database.host}}
+        - name: "DB_PORT"
+          value: {{.Values.database.port}}
+        - name: "DB_DATABASE"
+          value: {{.Values.database.name}}
+        - name: "DB_USER"
+          value: {{.Values.database.userId}}
+        - name: "DB_PASSWORD"
+          value: {{.Values.database.password}}
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
@@ -44,9 +97,6 @@ spec:
           httpGet:
             path: /realms/master
             port:  {{ .Values.port.application }}
-        volumeMounts:
-          - mountPath: /opt/what/keycloak/data
-            name: clients
       volumes:
         - name: clients
           persistentVolumeClaim:
