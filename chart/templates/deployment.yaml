@@ -84,7 +84,7 @@ spec:
         - "{{ .Values.ingress.host }}"
         env:
         - name: "DB_VENDOR"
-          value: {{.Values.database.vender }}
+          value: {{.Values.database.vendor }}
         - name: "DB_ADDR"
           value: {{.Values.database.host }}
         - name: "DB_PORT"
