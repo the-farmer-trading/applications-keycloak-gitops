@@ -83,6 +83,8 @@ spec:
         - "--hostname "
         - "{{ .Values.ingress.host }}"
         env:
+        - name: PROXY_ADDRESS_FORWARDING
+          value: "true"
         - name: "DB_VENDOR"
           value: {{.Values.database.vendor }}
         - name: "DB_ADDR"
