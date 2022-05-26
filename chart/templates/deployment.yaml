@@ -84,17 +84,17 @@ spec:
         - "{{ .Values.ingress.host }}"
         env:
         - name: "DB_VENDOR"
-          value: {{.Values.database.vender | quote}}
+          value: {{.Values.database.vender }}
         - name: "DB_ADDR"
-          value: {{.Values.database.host | quote}}
+          value: {{.Values.database.host }}
         - name: "DB_PORT"
           value: {{.Values.database.port | quote}}
         - name: "DB_DATABASE"
-          value: {{.Values.database.name | quote}}
+          value: {{.Values.database.name }}
         - name: "DB_USER"
-          value: {{.Values.database.userId | quote}}
+          value: {{.Values.database.userId }}
         - name: "DB_PASSWORD"
-          value: {{.Values.database.password | quote}}
+          value: {{.Values.database.password }}
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
