@@ -80,7 +80,7 @@ spec:
         - "start "
         - "--auto-build"
         - "--db={{.Values.database.vendor}}"
-        - "--db-url=jdbc:postgresql://{{.Values.database.host}}/{{.Values.database.name}}?user={{.Values.database.userId}}&password={{.Values.database.password}}"
+        - '--db-url="jdbc:postgresql://{{.Values.database.host}}/{{.Values.database.name}}?user={{.Values.database.userId}}&password={{.Values.database.password}}"'
         - "--hostname "
         - "{{ .Values.ingress.host }}"
         env:
