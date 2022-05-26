@@ -35,6 +35,8 @@ spec:
           value: {{.Values.database.password | quote}}
         - name: POSTGRES_USER
           value: {{.Values.database.userId | quote}}
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
         readinessProbe:
           exec:
             command: ["pg_isready", "-U", {{.Values.database.userId | quote}}]
