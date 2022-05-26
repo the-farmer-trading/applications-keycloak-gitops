@@ -97,6 +97,8 @@ spec:
           value: {{.Values.database.password }}
         - name: "KEYCLOAK_HOSTNAME"
           value: {{.Values.ingress.host }}
+        - name: "DB_SCHEMA"
+          value: {{.Values.database.schema }}
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:

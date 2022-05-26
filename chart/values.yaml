@@ -12,7 +12,8 @@ port:
 database:
   host: localhost
   port: 5432
-  vendor: POSTGRES
+  vendor: postgres
   name: keycloak
   password: password
   userId: postgres
+  schema: public
