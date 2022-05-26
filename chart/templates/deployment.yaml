@@ -15,6 +15,19 @@ spec:
       labels:
         app: {{ .Release.Name }}
     spec:
+      initContainers:
+      - name: database-initialization
+        image: busybox:1.28  
+        command: ['sh']
+        args:
+        - '-c'
+        - |
+          echo "CREATE DATABASE {{ .Values.database.name }};" >> /docker-entrypoint-initdb.d/seed.sql
+          echo "CREATE USER {{ .Values.database.userId }} WITH PASSWORD '{{ .Values.database.password }}';" >> /docker-entrypoint-initdb.d/seed.sql
+          echo "GRANT ALL PRIVILEGES ON DATABASE {{ .Values.database.name }} TO {{ .Values.database.userId }};" >> /docker-entrypoint-initdb.d/seed.sql
+        volumeMounts:
+        - name: initdb
+          mountPath: /docker-entrypoint-initdb.d
       containers:
       - name: {{ .Chart.Name }}-postgres
         image: postgres:13.2-alpine
@@ -61,6 +74,8 @@ spec:
         volumeMounts:
         - name: clients
           mountPath: /var/lib/postgresql/data
+        - name: initdb
+          mountPath: /docker-entrypoint-initdb.d
       - name: {{ .Release.Name }}
         image: {{ .Values.image.tag }}
         args: 
@@ -103,3 +118,6 @@ spec:
         - name: clients
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-clients-claim
+        - name: initdb
+          emptyDir: {}
+          
