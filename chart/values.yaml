@@ -1,6 +1,5 @@
 ingress:
   host: keycloak.pf2e.io
-  sslTermination: true
 
 image:
   tag: quay.io/keycloak/keycloak:18.0.0
