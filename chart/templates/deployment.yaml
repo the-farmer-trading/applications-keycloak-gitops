@@ -109,7 +109,6 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-admin-credentials
               key: password
-        - name:       
         ports:
         - name: http
           containerPort: {{ .Values.port.application }}
