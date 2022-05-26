@@ -95,8 +95,6 @@ spec:
           value: {{.Values.database.userId }}
         - name: "DB_PASSWORD"
           value: {{.Values.database.password }}
-        - name: "PROXY_ADDRESS_FORWARDING"
-          value: "true"
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
