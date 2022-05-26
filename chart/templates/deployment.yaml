@@ -105,6 +105,8 @@ spec:
             secretKeyRef:
               name: {{ .Release.Name }}-admin-credentials
               key: password
+        - name: KC_PROXY
+          value: "edge"
         ports:
         - name: http
           containerPort: {{ .Values.port.application }}
