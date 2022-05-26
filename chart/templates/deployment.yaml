@@ -43,21 +43,27 @@ spec:
         - name: POSTGRES_DB
           value: {{.Values.database.name | quote}}
         - name: POSTGRES_PASSWORD
-          value: {{.Values.database.password | quote}}
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-postgresql-credentials
+              key: password
         - name: POSTGRES_USER
-          value: {{.Values.database.userId | quote}}
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-postgresql-credentials
+              key: username
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
         readinessProbe:
           exec:
-            command: ["pg_isready", "-U", {{.Values.database.userId | quote}}]
+            command: ["pg_isready"]
           timeoutSeconds: 30
           periodSeconds: 10
           successThreshold: 1
           failureThreshold: 5
         livenessProbe:
           exec:
-            command: ["pg_isready", "-U", {{.Values.database.userId | quote}}]
+            command: ["pg_isready"]
           timeoutSeconds: 30
           periodSeconds: 10
           successThreshold: 1
@@ -81,8 +87,6 @@ spec:
         - "--auto-build"
         - "--db={{.Values.database.vendor}}"
         - "--db-url=jdbc:postgresql://{{.Values.database.host}}/{{.Values.database.name}}?currentSchema=public"
-        - "--db-username={{.Values.database.userId}}"
-        - "--db-password={{.Values.database.password}}"
         - "--hostname "
         - "{{ .Values.ingress.host }}"
         env:
@@ -91,13 +95,23 @@ spec:
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-admin-credentials
+              name: keycloak-admin-credentials
               key: username
         - name: KEYCLOAK_ADMIN_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ .Release.Name }}-admin-credentials
+              name: keycloak-admin-credentials
               key: password
+        - name: KC_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-postgresql-credentials
+              key: password
+        - name: KC_DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: keycloak-postgresql-credentials
+              key: username
         - name: KC_PROXY
           value: "edge"
         ports:

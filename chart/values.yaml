@@ -14,6 +14,4 @@ database:
   port: 5432
   vendor: postgres
   name: keycloak
-  password: password
-  userId: postgres
   schema: public
