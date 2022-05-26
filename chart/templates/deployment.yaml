@@ -95,8 +95,6 @@ spec:
           value: {{.Values.database.userId }}
         - name: "DB_PASSWORD"
           value: {{.Values.database.password }}
-        - name: "KC_HOSTNAME_STRICT_HTTPS"
-          value: "true"
         - name: KEYCLOAK_ADMIN
           valueFrom:
             secretKeyRef:
